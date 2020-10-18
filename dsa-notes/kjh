@@ -1,0 +1,77 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+
+#define spdio ios_base::sync_with_stdio(false);cin.tie(NULL);cout.tie(NULL);
+#define pb push_back
+#define pp pop_back()
+#define pf push_front
+#define ppf pop_front()
+#define ff first
+#define ss second
+#define mp make_pair
+#define fr(i,j,n) for(ll i=j; i<n; i++)
+#define rfr(i,j,n) for(ll i=n-1; i>=j; i--)
+#define with_space(string) getline(cin,string);
+#define pll pair<ll,ll>
+#define plb pair<ll,bool>
+#define psl pair<string,ll>
+#define psb pair<string,bool>
+#define srt(v) sort((v).begin(),(v).end())
+#define ub(v,val) upper_bound((v).begin(),(v).end(),(val))-(v).begin()
+#define lb(v,val) lower_bound((v).begin(),(v).end(),(val))-(v).begin()
+
+
+typedef long double ld;
+typedef long long int ll;
+
+
+const ll inf = (ll) 1e18 + 19;
+const ll mod = (ll) 1e9  +  7;
+
+
+
+
+void cazz() {
+    ll t=1,i=0,j,n;
+    //cin>>t;
+    while(t--) {
+        ll k;
+        cin>>n>>k;
+        ll a[n],sm=0,res=0;
+        priority_queue <ll> pq;
+        fr(i,0,n) {
+            cin>>a[i];
+            sm+=a[i];
+            pq.push(a[i]);
+        }
+        while(!pq.empty()) {
+            ll val=pq.top();
+            pq.pop();
+            ll val0=(sm/k)+(sm%k!=0);
+            if(val>val0) {
+                res+=(val0*val0);
+                val-=val0;
+                k-=1;
+                sm-=val0;
+                pq.push(val);
+            }
+            else {
+                sm-=val;
+                res+=(val*val);
+                k-=1;
+            }cout<<res<<' ';
+        }
+        cout<<res<<"\n";
+    }
+}
+
+
+
+
+int main() {
+    spdio;
+	cazz();
+	return 0;
+}
+ljhgbnliuh
