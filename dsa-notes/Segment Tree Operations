@@ -1,0 +1,180 @@
+//AUTHOR: phoenix_0010
+
+
+
+
+#include <bits/stdc++.h>
+using namespace std;
+
+
+#define spdio ios_base::sync_with_stdio(false);cin.tie(NULL);cout.tie(NULL);
+#define pb push_back
+#define pp pop_back()
+#define pf push_front
+#define ppf pop_front()
+#define ff first
+#define ss second
+#define mp make_pair
+#define fr(i,j,n) for(ll i=j; i<n; i++)
+#define rfr(i,j,n) for(ll i=n-1; i>=j; i--)
+#define pll pair<ll,ll>
+#define plb pair<ll,bool>
+#define psl pair<string,ll>
+#define psb pair<string,bool>
+#define srt(v) sort((v).begin(),(v).end())
+#define ub(v,val) upper_bound((v).begin(),(v).end(),(val))-(v).begin()
+#define lb(v,val) lower_bound((v).begin(),(v).end(),(val))-(v).begin()
+
+
+typedef long double ld;
+typedef long long int ll;
+
+
+//getline(cin,string);
+const ll inf = (ll) 1e18 + 19;
+const ll mod = (ll) 1e9  +  7;
+
+
+
+
+void build(ll ind,ll low,ll high,ll seg[],ll a[]) {
+    if(low==high) {
+        seg[ind]=a[high];
+        return;
+    }
+    ll mid=(low+high)/2;
+    build((2*ind)+1,low,mid,seg,a);
+    build((2*ind)+2,mid+1,high,seg,a);
+    seg[ind] = max(seg[(2*ind)+1],seg[(2*ind)+2]);
+}
+
+
+
+
+void sum(ll ind,ll low,ll high,ll sm[],ll a[]) {
+    if(low==high) {
+        sm[ind]=a[high];
+        return;
+    }
+    ll mid=(low+high)/2;
+    sum((2*ind)+1,low,mid,sm,a);
+    sum((2*ind)+2,mid+1,high,sm,a);
+    sm[ind]=sm[(2*ind)+1]+sm[(2*ind)+2];
+}
+
+
+
+
+ll maximum(ll ind,ll l,ll r,ll low,ll high,ll seg[]) {
+    if(r<low || l>high) return -inf;
+    else if(low>=l && high<=r) return seg[ind];
+    ll mid=(low+high)/2;
+    ll left = maximum((2*ind)+1,l,r,low,mid,seg);
+    ll right = maximum((2*ind)+2,l,r,mid+1,high,seg);
+    return max(left,right);
+}
+
+
+
+
+ll minimum(ll ind,ll l,ll r,ll low,ll high,ll seg[]) {
+    if(l>high || r<low) return inf;
+    else if(low>=l && high<=r) return seg[ind];
+    ll mid=(low+high)/2;
+    ll left = maximum((2*ind)+1,l,r,low,mid,seg);
+    ll right = maximum((2*ind)+2,l,r,mid+1,high,seg);
+    return min(left,right);
+}
+
+
+
+
+void pointUpdateSm(ll ind,ll node,ll val,ll low,ll high,ll sm[]) {
+    if(low==high) {
+        sm[ind]=val;
+    }
+    ll mid=(low+high)/2;
+    if(node>=low && node<=mid) pointUpdateSm((2*ind)+1,node,val,low,mid,sm);
+    else pointUpdateSm((2*mid)+2,node,val,mid+1,high,sm);
+    sm[ind]=sm[(2*ind)+1]+sm[(2*ind)+2];
+}
+
+
+
+
+void pointUpdate(ll ind,ll node,ll val,ll low,ll high,ll seg[]) {
+    if(low==high) {
+        seg[ind]=val;
+        return;
+    }
+    ll mid=(low+high)/2;
+    if(node>=low && node<=mid) pointUpdate((2*ind)+1,node,val,low,mid,seg);
+    else pointUpdate((2*mid)+2,node,val,mid+1,high,seg);
+    seg[ind]=max(seg[(2*ind)+1],seg[(2*ind)+2]);
+}
+
+
+
+
+void rangeUpdate(ll ind,ll low,ll high,ll l,ll r,ll seg[],ll lazy[],ll val) {
+    if(lazy[ind]!=0) {
+        seg[ind]+=(low+high-1)*lazy[ind];
+        if(low!=high) {
+            lazy[(2*ind)+1]=lazy[ind];
+            lazy[(2*ind)+2]=lazy[ind];
+        }
+        lazy[ind]=0;
+    }
+    if(l>high || r<low || low>high) return;
+    if(high<=r && low>=l) {
+        seg[ind]+=(low+high-1)*val;
+        if(low!=high) {
+            lazy[(2*ind)+1]=lazy[ind];
+            lazy[(2*ind)+2]=lazy[ind];
+        }
+        lazy[ind]=0;
+        return;
+    }
+    ll mid=(low+high)/2;
+    rangeUpdate((2*ind)+1,low,mid,l,r,seg,lazy,val);
+    rangeUpdate((2*ind)+2,mid+1,high,l,r,seg,lazy,val);
+    seg[ind]=seg[(2*ind)+1]+seg[(2*ind)+2];
+}
+
+
+
+
+ll querySumlazy(ll ind,ll low,ll high,ll l,ll r,ll seg[],ll lazy[]) {
+    if(lazy[ind]!=0) {
+        seg[ind]+=(low+high-1)*lazy[ind];
+        if(low!=high) {
+            lazy[(2*ind)+1]=lazy[ind];
+            lazy[(2*ind)+2]=lazy[ind];
+        }
+        lazy[ind]=0;
+    }
+    if(l>high || r<low || low>high) return 0;
+    if(high<=r && low>=l) return seg[ind];
+    ll mid=(low+high)/2;
+    return querySumlazy((2*ind)+1,low,mid,l,r,seg,lazy)+querySumlazy((2*ind)+2,mid+1,high,l,r,seg,lazy);
+}
+
+
+
+
+void cazz() {
+    ll t=1,i=0,j,n;
+    //cin>>t;
+    while(t--) {
+
+    }
+}
+
+
+
+
+int main() {
+    spdio;
+	cazz();
+	return 0;
+}
