@@ -1,0 +1,126 @@
+//AUTHOR: phoenix_0010
+
+
+
+
+#include <bits/stdc++.h>
+using namespace std;
+
+
+#define spdio ios_base::sync_with_stdio(false);cin.tie(NULL);cout.tie(NULL);
+#define pb push_back
+#define pp pop_back()
+#define pf push_front
+#define ppf pop_front()
+#define ff first
+#define ss second
+#define mp make_pair
+#define fr(i,j,n) for(ll i=j; i<n; i++)
+#define rfr(i,j,n) for(ll i=n-1; i>=j; i--)
+#define pll pair<ll,ll>
+#define plb pair<ll,bool>
+#define psl pair<string,ll>
+#define psb pair<string,bool>
+#define srt(v) sort((v).begin(),(v).end())
+#define ub(v,val) upper_bound((v).begin(),(v).end(),(val))-(v).begin()
+#define lb(v,val) lower_bound((v).begin(),(v).end(),(val))-(v).begin()
+
+
+typedef long double ld;
+typedef long long int ll;
+
+
+//getline(cin,string);
+const ll inf = (ll) 1e18 + 19;
+const ll mod = (ll) 1e9  +  7;
+
+
+
+
+ll ncr(ll n,ll r) {
+    ll val=1,i,j,p=2;
+    rfr(i,n-r+1,n+1) {
+        val*=i;
+        while(val%p==0 && p<=r) {
+            val/=p;
+            p+=1;
+        }
+    }
+    if(p<r) {
+        fr(i,p,r+1) val/=i;
+    }
+    return val;
+}
+
+
+
+
+/*
+1
+6 8
+1 2 3
+5 6 2
+3 6 3
+1 5 5
+2 5 6
+2 3 5
+4 6 7
+3 4 9
+*/
+
+
+
+
+ll fnd(ll val,ll link[]) {
+    if(val==link[val]) return val;
+    else return fnd(link[val],link);
+}
+
+
+
+
+void cazz() {
+    ll t=1,i=0,j,n;
+    cin>>t;
+    while(t--) {
+        ll m,s,d,w;
+        cin>>n>>m;
+        vector <pll> v[n+1],res[n+1];
+        fr(i,0,m) {
+            cin>>s>>d>>w;
+            v[s].pb({d,w});
+            v[d].pb({s,w});
+        }
+        priority_queue <pair<ll,pll> > q;
+        fr(i,0,v[1].size()) q.push({-v[1][i].ss,{1,v[1][i].ff}});
+        bool vis[n+1]={};
+        while(q.size()) {
+            w=-q.top().ff;
+            s=q.top().ss.ff;
+            d=q.top().ss.ss;
+            q.pop();
+            if(!vis[s] || !vis[d]) {
+                vis[s]=true;
+                vis[d]=true;
+                res[s].pb({d,w});
+                res[d].pb({s,w});
+                fr(i,0,v[d].size()) {
+                    q.push({-v[d][i].ss,{d,v[d][i].ff}});
+                }
+            }
+        }
+        fr(i,1,n+1) {
+            cout<<i<<"\n";
+            fr(j,0,res[i].size()) cout<<res[i][j].ff<<' '<<res[i][j].ss<<"\n";
+        }
+    }
+}
+
+
+
+
+int main() {
+    spdio;
+	cazz();
+	return 0;
+}
