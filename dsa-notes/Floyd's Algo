@@ -1,0 +1,83 @@
+//AUTHOR: phoenix_0010
+
+
+
+
+#include <bits/stdc++.h>
+using namespace std;
+
+
+#define spdio ios_base::sync_with_stdio(false);cin.tie(NULL);cout.tie(NULL);
+#define pb push_back
+#define pp pop_back()
+#define pf push_front
+#define ppf pop_front()
+#define ff first
+#define ss second
+#define mp make_pair
+#define fr(i,j,n) for(ll i=j; i<n; i++)
+#define rfr(i,j,n) for(ll i=n-1; i>=j; i--)
+#define pll pair<ll,ll>
+#define plb pair<ll,bool>
+#define psl pair<string,ll>
+#define psb pair<string,bool>
+#define srt(v) sort((v).begin(),(v).end())
+#define ub(v,val) upper_bound((v).begin(),(v).end(),(val))-(v).begin()
+#define lb(v,val) lower_bound((v).begin(),(v).end(),(val))-(v).begin()
+
+
+typedef long double ld;
+typedef long long int ll;
+
+
+//getline(cin,string);
+const ll inf = (ll) 1e18 + 19;
+const ll mod = (ll) 1e9  +  7;
+
+
+
+
+void cazz() {
+    ll t=1,i=0,j,n;
+    //only for acyclic successor graph
+    cin>>t;
+    while(t--) {
+        ll s,d,m;
+        cin>>n>>m;
+        vector <ll> v[n+1];
+        fr(i,0,m) {
+            cin>>s>>d;
+            v[s].pb(d);
+        }
+        ll a=-1,b=-1;
+        if(v[1].size()>0) a=v[1][0];
+        if(a!=-1 && v[a].size()>0) b=v[a][0];
+        else a=-1;
+        while(a!=b && v[a].size()>0 && v[b].size()>0) {
+            a=v[a][0];
+            b=v[b][0];
+            if(v[b].size()>0) b=v[b][0];
+            else break;
+        }
+        if(a==b && a!=-1) {
+            cout<<"There is a loop\n";
+            ll length=1;
+            b=v[a][0];
+            while(a!=b) {
+                length+=1;
+                b=v[b][0];
+            }
+            cout<<"And the length is "<<length<<"\n";
+        }
+        else cout<<"There is no loop\n";
+    }
+}
+
+
+
+
+int main() {
+    spdio;
+	cazz();
+	return 0;
+}
