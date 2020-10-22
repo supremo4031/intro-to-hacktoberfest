@@ -1,0 +1,99 @@
+#include<bits/stdc++.h>
+using namespace std;
+using ll=long long;
+using ld=long double;
+const ll mod=1e9+7;
+const ll N = 4e5+5;
+
+
+vector<int>ans,vec;
+vector<int>adj[N];
+vector<double>aka;
+vector<pair<int,double>>dp[N];
+int rok;double val;
+
+void init(int n){
+    ans.clear();vec.clear();aka.clear();vec.resize(n);
+    for (int i = 0; i<=n; i++) {
+        adj[i].clear();
+    }
+    for (int i = 0; i <=n; i++) {
+        dp[i].clear();
+    }
+    
+}
+vector<int>vis;
+void rt(int n){
+    vis.resize(n);
+    for (int i = 0; i < n; i++) {
+        vis[i]=0;
+    }
+}
+void dfs(int n,double val){
+    vis[n]=1;
+    for(auto it:dp[n]){
+        if(it.second>val){
+                dfs(it.first,it.second);
+            
+        }
+    }
+}
+
+
+void solve(){
+    int n;
+    cin>>n;
+    init(n);
+    for (int i = 0; i < n; i++) {
+        cin>>vec[i];
+    }
+    for (int i = 0; i < n; i++) {
+        for (int j = 0; j < n; j++) {
+            double r=(double)((i+1)-(j+1));
+            double p=(double)(vec[j]-vec[i]);
+            if((r>0&&p>0)||(r<0&&p<0)){
+                double tt=(double)r/p;
+                aka.push_back(tt);
+                dp[i].push_back({j,tt});
+                dp[j].push_back({i,tt});
+                
+            }
+            
+        }
+    }
+    if(aka.size()==0){
+        cout<<1<<" "<<1<<"\n";
+        return;
+    }
+    for (int i = 0; i <n ; i++) {
+        rok=0;rt(n),val=0.0;
+        dfs(i,val);
+        for (auto it:dp[i]) {
+            vis[it.first]=1;
+        }
+        for (int i =0; i < n; i++) {
+            if(vis[i]==1) rok++;
+        }
+        ans.push_back(rok);
+        
+    }
+    cout<<*min_element(ans.begin(),ans.end())<<" "<<*max_element(ans.begin(),ans.end())<<"\n";
+    
+    
+}
+  
+        
+
+int main(){
+   
+   
+        ios_base::sync_with_stdio(0);cin.tie(0);cout.tie(0);
+        int T=1;
+        cin>>T;
+        while(T--){
+            solve();
+        }
+            
+            
+        return 0;
+}
